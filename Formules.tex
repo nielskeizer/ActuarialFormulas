@@ -1,0 +1,140 @@
+\documentclass[10pt,landscape]{article}
+\usepackage{multicol}
+\usepackage{calc}
+\usepackage{ifthen}
+\usepackage[landscape]{geometry}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{color,graphicx,overpic}
+\usepackage{actuarialsymbol, actuarialangle}
+\usepackage{bookmark}
+
+
+\pdfinfo{
+  /Title (ARN1 Formules.pdf)
+  /Author (Niels Keizer)
+  /Subject (Actuarieel Rekenen 1)
+  /Keywords (actuariele notatie, samenvatting , formules)}
+
+% This sets page margins to .5 inch if using letter paper, and to 1cm
+% if using A4 paper. (This probably isn't strictly necessary.)
+% If using another size paper, use default 1cm margins.
+\ifthenelse{\lengthtest { \paperwidth = 11in}}
+    { \geometry{top=.5in,left=.5in,right=.5in,bottom=.5in} }
+    {\ifthenelse{ \lengthtest{ \paperwidth = 297mm}}
+        {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+        {\geometry{top=1cm,left=1cm,right=1cm,bottom=1cm} }
+    }
+
+% Turn off header and footer
+\pagestyle{empty}
+
+% Redefine section commands to use less space
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%x
+                                {\normalfont\large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+                                {-1explus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%
+                                {\normalfont\normalsize\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {1ex plus .2ex}%
+                                {\normalfont\small\bfseries}}
+\makeatother
+
+
+% Don't print section numbers
+\setcounter{secnumdepth}{0}
+
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0.5ex}
+
+%My Environments
+\newtheorem{example}[section]{Example}
+% -----------------------------------------------------------------------
+
+\def\annu#1{_{%
+\vbox{\hrule height .2pt
+\kern 1pt
+\hbox{$\scriptstyle {#1}\kern 1pt$}%
+}\kern-.05pt
+\vrule width .2pt
+}}
+
+\begin{document}
+\raggedright
+\footnotesize
+\begin{multicols}{3}
+
+
+% multicol parameters
+% These lengths are set only within the two main columns
+%\setlength{\columnseprule}{0.25pt}
+\setlength{\premulticols}{1pt}
+\setlength{\postmulticols}{1pt}
+\setlength{\multicolsep}{1pt}
+\setlength{\columnsep}{2pt}
+
+\begin{center}
+     \Large{\underline{Formules ARN1}} \\
+\end{center}
+
+\section{Kansen}
+
+Kans dat een $x$-jarige binnen 1 jaar overlijdt. 
+$$\qx{x}$$
+
+Kans dat een $x$-jarige na $n$ jaar nog leeft.
+$$ \px[n]{x} = \prod_{t=0}^{n-1} (1-\qx{x+t}) $$ 
+
+Kans dat een $x$-jarige tussen het $t-1$-de en $t$-de jaar overlijdt.
+$$ \qx[t-1|]{x} = \px[t-1]{x} \times \qx{x+t-1} = \px[t-1]{x} - \px[t]{x} $$ 
+
+Kans dat een $x$ en een $y$-jarige na $n$ jaar beiden nog leven
+$$ \px[n]{xy} = \px[n]{x} \times \px[n]{y} $$
+
+Kans dat een $x$ en/of een $y$-jarige na $n$ jaar nog in leven is.
+$$ \px[n]{\joint{xy}} = \px[n]{x} + \px[n]{y} - \px[n]{xy} $$
+
+Kans dat een het eerste overlijden van een $x$ of $y$-jarige tussen jaar $t-1$ en $t$ is.
+$$ \qx[t-1|]{xy} = \px[t-1]{xy} \times \qx{x+t-1} \times \qx{y+t-1} = \px[t-1]{xy} - \px[t]{xy} $$
+
+Kans dat van een $x$-jarige en een $y$-jarige, de langstelevende tussen $t-1$ en $t$ overlijdt.
+$$ \qx[t-1|]{\joint{xy}} = \qx[t-1|]{x} + \qx[t-1|]{y} - \qx[t-1|]{xy} $$
+
+\section{Verzekeringen}
+De actuariele contante waarde van een kasstroomverzekering zonder optionaliteit is te bepalen met:
+$$ \sum_{t=0}^{\infty} C(t) \times P(x, t) \times (1 + z_{t})^{-t} $$
+Hier is $C(t)$ de kasstroom op tijdstip $t$, $P(x, t)$ is de kans dat de kasstroom wordt uitgekeerd voor verzekerde $x$ op $t$ en $z_{t}$ is een rente termijn structuur.
+
+Eenmalige uitkering bij leven.
+$$ \Ex[n]{x} = \px[n]{x} \times (1 + z_{n})^{-n} $$
+
+Levenslange prenumerando lijfrente.
+$$ \ax**{x} = \sum_{t=0}^{\infty} \px[t]{x} \times (1 + z_{t})^{-t} $$
+
+Tijdelijke prenumerando lijfrente met duur $n$.
+$$ \ax**{\endowxn} = \sum_{t=0}^{n-1} \px[t]{x} \times (1 + z_{t})^{-t} $$
+
+Uitgestelde tijdelijke prenumerando lijfrente met uitstelduur $m$ en betalingsduur $n$.
+$$ \ax**[m|]{\endowxn} = \sum_{t=m}^{m+n-1} \px[t]{x} \times (1 + z_{t})^{-t} $$
+
+Levenslange verzekering met uitkering bij overlijden.
+
+$$ \Ax{x} = \sum_{t=0}^{\infty} \qx[t-1|]{x} \times (1 + z_{t})^{-t} $$
+
+Levenslange verzekering met uitkering direct bij overlijden.
+
+$$ \Ax*{x} = \sum_{t=0}^{\infty} \qx[t-1|]{x} \times (1 + z_{t-0.5})^{-t+0.5} $$
+
+\section{Relaties}
+
+
+% You can even have references
+\rule{0.3\linewidth}{0.25pt}
+\scriptsize
+\end{multicols}
+\end{document}
