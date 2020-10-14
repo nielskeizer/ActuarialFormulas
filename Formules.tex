@@ -100,7 +100,7 @@ Kans dat een $x$ en/of een $y$-jarige na $n$ jaar nog in leven is.
 $$ \px[n]{\joint{xy}} = \px[n]{x} + \px[n]{y} - \px[n]{xy} $$
 
 Kans dat een het eerste overlijden van een $x$ of $y$-jarige tussen jaar $t-1$ en $t$ is.
-$$ \qx[t-1|]{xy} = \px[t-1]{xy} \times \qx{x+t-1} \times \qx{y+t-1} = \px[t-1]{xy} - \px[t]{xy} $$
+$$ \qx[t-1|]{xy} = \px[t-1]{xy} \times ( 1 - \px{x+t-1} \times \px{y+t-1}) = \px[t-1]{xy} - \px[t]{xy} $$
 
 Kans dat van een $x$-jarige en een $y$-jarige, de langstelevende tussen $t-1$ en $t$ overlijdt.
 $$ \qx[t-1|]{\joint{xy}} = \qx[t-1|]{x} + \qx[t-1|]{y} - \qx[t-1|]{xy} $$
